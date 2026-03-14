@@ -4,48 +4,52 @@ inventory ={}
 
 
 def create_product():
-    id_product = int(input("Enter the id of product: "))
-    name_product = input("Enter the name of product: ")
-    price = float(input("Enter the price of product: "))
-    quantity = int(input("Enter the quantity of product: "))
-    os.system("clear") 
-
-    inventory[id_product] = {"name": name_product, "price": price, "quantity": quantity}
-
-
-    return inventory, price, quantity, id_product,name_product
+   while True:
+        try:
+            id_input = input("Enter the id of product: ").strip()
+            name_product = input("Enter the name of product: ").strip()
+            price_input = input("Enter the price of product: ").strip()
+            quantity_input = input("Enter the quantity of product: ").strip()
+            os.system("cls" if os.name == "nt" else "clear") 
+            if not (id_input and name_product and price_input and quantity_input):
+                 print("No dejes campos vacios o vacios")
+                 continue
+            id_product = int(id_input)
+            price = float(price_input)
+            quantity = int(quantity_input)
+            if id_product < 0 or price < 0 or quantity < 0:
+                  print("Ingresa solo numeros positivos por encima de 0")
+                  continue
+            os.system("cls" if os.name == "nt" else "clear")
+            inventory[id_product] = {"name": name_product, "price": price, "quantity": quantity}
+            return inventory, price, quantity, id_product,name_product 
+        except ValueError:
+            print("Error: ID, Precio y Cantidad deben ser números.")
+        
 
 def total_value(id_product):
-    totalprice = inventory[id_product]["price"] * inventory[id_product]["quantity"]
-    return totalprice
+    return inventory[id_product]["price"] * inventory[id_product]["quantity"]
 
 
-option_products_requier = int(input("enter the quantity of products required: "))
-quantity_product_requier = 0
 
-while quantity_product_requier < option_products_requier:
-    quantity_product_requier += 1  
+while True:
     try:
-        inventory, price, quantity, id_product,name_product = create_product()
-
-        if price > 0 and quantity > 0:
-            print(f"Felicitaciones el producto id: {id_product} fue añadido exitosamente")
-            
-            
-        else:
-            print("Ingresa valores correctos solicitados")
+        option_products_requier = int(input("enter the quantity of products required: "))
+        if option_products_requier < 1:
+            print("Debe ser al menos 1 producto")
+            continue
+        value_inventario = 0
+        for _ in range(option_products_requier):
+            id_create = create_product()
+            value_inventario += total_value(id_create)
+            print(f"Producto {id_create} añadido")
+        os.system("cls" if os.name == "nt" else "clear")    
+        print("--- inventario final ---")
+        pprint.pprint(inventory)  
+        break                
+        
     except ValueError:
-        print("Ingresa el valor solicitado correctamente") 
-               
-else:
-    os.system("clear")
-    print("Agregaste productos correctamente")
-    for key, value in inventory.items():
-        print(f"{key}")
-       
-        # for key,value in value.items():
-        #     print(f"{value}")
-      
+            print("Ingresa un numero entero positivo para la cantidad de productos")         
 
          
     
