@@ -1,288 +1,294 @@
+# 📦 Sistema de Inventario en Python
+![alt text](images.png)
+## 📖 Descripción del Proyecto
 
-# 📦 Inventory Management Program (Python)
-~/Riwi Projects/images.png
-## 📖 Description
+Este proyecto es un **programa simple de gestión de inventario desarrollado en Python**.
+El objetivo del programa es permitir que un usuario **registre productos**, indicando:
 
-This project is a **simple inventory management program written in Python**.
-The program allows a user to **enter products, their prices, and quantities**, and then it calculates the **total cost of each product automatically**.
+* El **nombre del producto**
+* El **precio del producto**
+* La **cantidad disponible**
 
-At the end, the program shows a **complete inventory with all the products entered**.
+Con esta información, el programa **calcula automáticamente el costo total** de cada producto (precio × cantidad).
 
-The goal of this program is to demonstrate basic programming concepts such as:
+Finalmente, el programa muestra **todo el inventario registrado** de una forma organizada.
 
-* Variables
-* Dictionaries
-* Functions
-* Loops
-* Error handling
-* User input
-* Basic calculations
-
-This program runs **entirely in the terminal** and interacts with the user through text prompts.
+Este programa funciona **en la terminal** y utiliza interacción con el usuario mediante texto.
 
 ---
 
-# 🎯 Objective of the Program
+# 🎯 Objetivo del Programa
 
-The main objective of this program is to **create a small inventory system** that allows a user to:
+El objetivo principal del programa es aprender y demostrar algunos **conceptos fundamentales de programación en Python**, como:
 
-1. Enter how many products they want to register.
-2. Input the **name**, **price**, and **quantity** of each product.
-3. Automatically calculate the **total cost**.
-4. Store the information inside a **dictionary called `inventory`**.
-5. Display the final inventory at the end.
+* Uso de **variables**
+* Uso de **diccionarios**
+* Creación de **funciones**
+* Uso de **bucles (loops)**
+* Manejo de **errores**
+* Entrada de datos por el usuario
+* Validación de datos
+* Operaciones matemáticas básicas
 
 ---
 
-# 🧠 Conceptual Explanation (Very Simple)
+# 🧠 Explicación Conceptual (Muy Sencilla)
 
-Imagine you have a **toy store** 🧸.
+Imagina que tienes una **tienda** 🏪.
 
-You want to write down:
+En tu tienda necesitas saber:
 
-* the name of the toy
-* how much it costs
-* how many you have
+* Qué productos tienes
+* Cuánto cuestan
+* Cuántos hay disponibles
 
-This program is like a **notebook that remembers all your toys**.
+Este programa funciona como **una libreta digital** donde puedes escribir todos los productos que tienes.
 
-Each time you add a toy, the program writes it inside a **special Python dictionary** called:
+Cada vez que agregas un producto, el programa lo guarda dentro de una estructura llamada **diccionario** en Python.
+
+Ese diccionario se llama:
 
 ```
 inventory
 ```
 
-Inside that notebook, every product will look like this:
+Dentro de ese diccionario se guarda la información de cada producto.
+
+Por ejemplo:
 
 ```
-Toy Car
-   price: 10
-   quantity: 5
-   total_cost: 50
+{
+ "Manzana": {
+   "precio": 2,
+   "cantidad": 10,
+   "costo_total": 20
+ }
+}
 ```
+
+Esto significa:
+
+* Manzana cuesta 2
+* hay 10 unidades
+* el costo total es 20
 
 ---
 
-# 🛠 Technologies Used
+# 🛠 Tecnologías Utilizadas
+
+Este proyecto utiliza:
 
 * **Python 3**
-* Standard Python libraries:
 
-  * `os`
-  * `pprint`
+Librerías estándar de Python:
 
-No external libraries are required.
+* `os`
+* `pprint`
+
+No se necesitan instalar librerías adicionales.
 
 ---
 
-# 📚 Libraries Used
+# 📚 Librerías Utilizadas
 
-## 1️⃣ `os`
+## 1️⃣ Librería `os`
 
-```
+```python
 import os
 ```
 
-This library allows Python to **communicate with the operating system**.
+La librería `os` permite que Python **interactúe con el sistema operativo**.
 
-In this program it is used to **clear the terminal screen**.
+En este programa se usa para **limpiar la pantalla de la terminal**.
 
-Example used in the code:
+Código utilizado:
 
-```
+```python
 os.system("cls" if os.name == "nt" else "clear")
 ```
 
-Explanation:
+Explicación:
 
-* If the system is **Windows**, it runs `cls`
-* If the system is **Linux or Mac**, it runs `clear`
+* Si el sistema es **Windows**, ejecuta `cls`
+* Si el sistema es **Linux o Mac**, ejecuta `clear`
 
-This keeps the terminal **clean and easy to read**.
+Esto hace que la terminal **no se vea llena de texto** y sea más fácil leer.
 
 ---
 
-## 2️⃣ `pprint`
+## 2️⃣ Librería `pprint`
 
-```
+```python
 import pprint
 ```
 
-`pprint` means **pretty print**.
+`pprint` significa **pretty print**, es decir, **impresión bonita**.
 
-It prints complex data structures (like dictionaries) in a **clean and readable format**.
+Sirve para mostrar estructuras complejas como diccionarios de forma **más organizada y fácil de leer**.
 
-Example:
+Ejemplo:
 
-```
+```python
 pprint.pprint(inventory)
 ```
 
-Instead of printing everything in one messy line, it prints it nicely organized.
+En lugar de imprimir todo en una sola línea desordenada, lo muestra estructurado.
 
 ---
 
-# 📦 Global Variable
+# 📦 Variable Global
 
-```
+```python
 inventory = {}
 ```
 
-This creates an **empty dictionary**.
+Aquí se crea un **diccionario vacío**.
 
-Think of it like an **empty box** where we will store all the products.
+Un diccionario es como **una caja donde guardamos información**.
 
-Each product will be saved like this:
+En este caso guardaremos **todos los productos registrados**.
 
-```
-inventory["product_name"] = {
+Cada producto se guarda de esta forma:
+
+```python
+inventory[nombre_producto] = {
     "precio": price,
     "cantidad": quantity,
     "costo_total": total_cost
 }
 ```
 
-So the dictionary might look like:
-
-```
-{
- "Apple": {
-     "precio": 2,
-     "cantidad": 10,
-     "costo_total": 20
- }
-}
-```
-
 ---
 
-# 🔧 Function: `create_product()`
+# 🔧 Función `create_product()`
 
-This function is responsible for **creating and storing a product in the inventory**.
+Esta función se encarga de **crear un producto y guardarlo en el inventario**.
 
-```
+```python
 def create_product():
 ```
 
+Una función es un **bloque de código que realiza una tarea específica**.
+
+En este caso la tarea es **registrar un producto**.
+
 ---
 
-# 🔁 Infinite Loop
+# 🔁 Bucle Infinito
 
-```
+Dentro de la función existe un bucle:
+
+```python
 while True:
 ```
 
-This loop means:
+Esto significa:
 
-> "Keep asking the user for information until the data is correct."
+El programa **seguirá pidiendo datos hasta que el usuario ingrese información válida**.
 
-If the user makes a mistake, the program **does not crash**.
-Instead, it **asks again**.
+Si el usuario comete un error, el programa **no se rompe**, simplemente vuelve a preguntar.
 
 ---
 
-# ⌨️ Asking the User for Data
+# ⌨️ Entrada de Datos del Usuario
 
-The program asks the user for three things:
+El programa solicita tres datos:
 
-```
+```python
 name_product = input("Enter the name of product: ").strip()
 price_input = input("Enter the price of product: ").strip()
 quantity_input = input("Enter the quantity of product: ").strip()
 ```
 
-Explanation:
+Explicación:
 
-* `input()` lets the user type something.
-* `.strip()` removes extra spaces.
+`input()` permite que el usuario escriba información.
 
-Example:
+`.strip()` elimina espacios innecesarios.
 
-User types:
+Por ejemplo:
 
-```
-  apple
-```
-
-`.strip()` converts it to:
+Si el usuario escribe:
 
 ```
-apple
+   manzana
+```
+
+`.strip()` lo convierte en:
+
+```
+manzana
 ```
 
 ---
 
-# 🧹 Clearing the Screen
+# 🧹 Limpieza de Pantalla
 
-```
+Después de ingresar los datos se limpia la pantalla:
+
+```python
 os.system("cls" if os.name == "nt" else "clear")
 ```
 
-This clears the terminal so the screen does not become messy.
+Esto hace que la terminal **se vea más ordenada**.
 
 ---
 
-# ⚠️ Checking Empty Fields
+# ⚠️ Validación de Campos Vacíos
 
-```
+El programa verifica que el usuario **no deje campos vacíos**.
+
+```python
 if not (name_product and price_input and quantity_input):
 ```
 
-This checks if the user **left any field empty**.
-
-Example of bad input:
-
-```
-name:
-price:
-quantity: 5
-```
-
-If something is empty, the program prints:
+Si algún campo está vacío se muestra el mensaje:
 
 ```
 No dejes campos vacios
 ```
 
-and asks again.
+y el programa vuelve a pedir los datos.
 
 ---
 
-# 🔢 Converting Data Types
+# 🔢 Conversión de Datos
 
-```
+Los datos ingresados por el usuario son **texto**.
+
+Por eso deben convertirse a números.
+
+```python
 price = float(price_input)
 quantity = int(quantity_input)
 ```
 
-Explanation:
+Esto permite realizar cálculos.
 
-Users type numbers as **text**, so we convert them:
+Ejemplo:
 
-| Input  | Converted To |
-| ------ | ------------ |
-| "10.5" | float        |
-| "5"    | int          |
-
-This allows the program to **perform calculations**.
+| Entrada | Tipo convertido |
+| ------- | --------------- |
+| "10.5"  | float           |
+| "3"     | int             |
 
 ---
 
-# 🚫 Checking Negative Numbers
+# 🚫 Validación de Números Negativos
 
-```
+El programa evita valores negativos.
+
+```python
 if price < 0 or quantity < 0:
 ```
 
-This prevents invalid data.
-
-Example of invalid input:
+Ejemplo de valor incorrecto:
 
 ```
-price: -5
+precio: -5
 ```
 
-The program will show:
+El programa mostrará:
 
 ```
 Ingresa solo numeros positivos
@@ -290,32 +296,34 @@ Ingresa solo numeros positivos
 
 ---
 
-# 🧮 Calculating Total Cost
+# 🧮 Cálculo del Costo Total
 
-```
+El costo total se calcula así:
+
+```python
 total_cost = price * quantity
 ```
 
-Example:
+Ejemplo:
 
 ```
-price = 10
-quantity = 5
+precio = 10
+cantidad = 5
 ```
 
-Result:
+Resultado:
 
 ```
-total_cost = 50
+costo_total = 50
 ```
 
 ---
 
-# 💾 Saving the Product
+# 💾 Guardar el Producto en el Inventario
 
-The product is stored inside the dictionary:
+El producto se guarda dentro del diccionario `inventory`.
 
-```
+```python
 inventory[name_product] = {
     "precio": price,
     "cantidad": quantity,
@@ -323,7 +331,7 @@ inventory[name_product] = {
 }
 ```
 
-Example result:
+Ejemplo del resultado:
 
 ```
 {
@@ -337,37 +345,35 @@ Example result:
 
 ---
 
-# 🔙 Returning the Product Name
+# 🔙 Retorno del Nombre del Producto
 
-```
+La función devuelve el nombre del producto:
+
+```python
 return name_product
 ```
 
-This sends the product name back to the main program so we can print:
-
-```
-Producto añadido con éxito
-```
+Esto permite mostrar el mensaje de confirmación.
 
 ---
 
-# ⚠️ Error Handling
+# ⚠️ Manejo de Errores
 
-```
+El programa utiliza:
+
+```python
 except ValueError:
 ```
 
-This happens when the user types something invalid.
+Esto ocurre cuando el usuario escribe algo que **no es un número**.
 
-Example:
+Ejemplo:
 
 ```
-price: ten
+precio: diez
 ```
 
-Python cannot convert `"ten"` into a number, so it triggers the error.
-
-The program then shows:
+El programa mostrará:
 
 ```
 Error: ID, Precio y Cantidad deben ser números.
@@ -375,178 +381,140 @@ Error: ID, Precio y Cantidad deben ser números.
 
 ---
 
-# 🔁 Main Program Loop
+# 🔁 Bucle Principal del Programa
 
-The program starts with:
+El programa principal también usa un bucle:
 
-```
+```python
 while True:
 ```
 
-This loop controls the entire program.
+Este bucle controla todo el flujo del programa.
 
 ---
 
-# 📥 Asking How Many Products
+# 📥 Cantidad de Productos
 
-```
+El usuario debe ingresar cuántos productos desea registrar.
+
+```python
 num_products = int(input("enter the quantity of products required: "))
 ```
 
-Example:
+Ejemplo:
 
 ```
 3
 ```
 
-The program will ask the user to register **3 products**.
+El programa pedirá **3 productos**.
 
 ---
 
-# 🚫 Preventing Invalid Amounts
+# 🚫 Validación de Cantidad
 
-```
+El programa evita valores menores a 1.
+
+```python
 if num_products < 1:
 ```
 
-This prevents values like:
+Esto evita entradas como:
 
 ```
 0
--5
+-2
 ```
-
-The program requires **at least one product**.
 
 ---
 
-# 🔁 Product Registration Loop
+# 🔁 Registro de Productos
 
-```
+Se usa un bucle `for`:
+
+```python
 for _ in range(num_products):
 ```
 
-If the user entered:
+Si el usuario ingresó:
 
 ```
 3
 ```
 
-The loop will run **3 times**.
+El programa registrará **3 productos**.
 
-Example output:
+---
+
+# 📢 Mensaje de Confirmación
+
+Después de registrar cada producto se muestra:
 
 ```
-Registro de producto 1
-Registro de producto 2
-Registro de producto 3
+Producto 'nombre' añadido con éxito
+```
+
+Ejemplo:
+
+```
+Producto 'Manzana' añadido con éxito
 ```
 
 ---
 
-# 📢 Success Message
+# 🧹 Limpieza Antes del Resultado Final
 
-After adding a product:
-
-```
-print(f"¡Producto '{added_name}' añadido con éxito!")
-```
-
-Example:
-
-```
-Producto 'Apple' añadido con éxito
-```
+Antes de mostrar el inventario final se limpia la pantalla nuevamente.
 
 ---
 
-# 🧹 Clearing the Screen Again
+# 📊 Inventario Final
 
-Before showing the final inventory, the screen is cleared again:
+Finalmente se muestra el inventario completo:
 
-```
-os.system("cls" if os.name == "nt" else "clear")
-```
-
----
-
-# 📊 Showing Final Inventory
-
-```
+```python
 pprint.pprint(inventory)
 ```
 
-Example output:
+Ejemplo de salida:
 
 ```
 {
- 'Apple': {'precio': 2.0, 'cantidad': 10, 'costo_total': 20.0},
- 'Milk': {'precio': 3.5, 'cantidad': 4, 'costo_total': 14.0}
+ 'Manzana': {'precio': 2.0, 'cantidad': 10, 'costo_total': 20.0},
+ 'Leche': {'precio': 3.5, 'cantidad': 4, 'costo_total': 14.0}
 }
 ```
 
 ---
 
-# ▶️ Example Execution
+# ▶️ Ejemplo de Ejecución
 
-Example run of the program:
+Ejemplo de uso del programa:
 
 ```
 enter the quantity of products required: 2
 
 --- Registro de producto 1 ---
-Enter the name of product: Apple
+Enter the name of product: Manzana
 Enter the price of product: 2
 Enter the quantity of product: 10
 
-Producto 'Apple' añadido con éxito!
+Producto 'Manzana' añadido con éxito!
 
 --- Registro de producto 2 ---
-Enter the name of product: Milk
+Enter the name of product: Leche
 Enter the price of product: 3
 Enter the quantity of product: 5
-
-Producto 'Milk' añadido con éxito!
 ```
 
-Final output:
+Resultado final:
 
 ```
 --- inventario final ---
 
 {
- 'Apple': {'precio': 2.0, 'cantidad': 10, 'costo_total': 20.0},
- 'Milk': {'precio': 3.0, 'cantidad': 5, 'costo_total': 15.0}
+ 'Manzana': {'precio': 2.0, 'cantidad': 10, 'costo_total': 20.0},
+ 'Leche': {'precio': 3.0, 'cantidad': 5, 'costo_total': 15.0}
 }
 ```
-
----
-
-# 💡 Concepts Demonstrated
-
-This project demonstrates several important programming concepts:
-
-* Functions
-* Dictionaries
-* Loops (`while`, `for`)
-* Error handling (`try/except`)
-* User input
-* Data validation
-* Arithmetic operations
-* Modular code design
-
----
-
-# 🚀 Possible Improvements
-
-This program could be improved by adding:
-
-* Product IDs
-* Delete products
-* Update products
-* Save inventory to a file
-* Load inventory from a file
-* Graphical interface
-
----
 
