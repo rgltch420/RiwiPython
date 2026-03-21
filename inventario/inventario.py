@@ -1,54 +1,51 @@
 import os
 import pprint
-inventory ={}
+inventory = []
 
 
 def create_product():
-   while True:
-        try:
-            name_product = input("Enter the name of product: ").strip()
-            price_input = input("Enter the price of product: ").strip()
-            quantity_input = input("Enter the quantity of product: ").strip()
-            os.system("cls" if os.name == "nt" else "clear") 
-            if not (name_product and price_input and quantity_input):
-                 print("No dejes campos vacios o vacios")
-                 continue
-            
-            price = float(price_input)
-            quantity = int(quantity_input)
+    id_product = int(input("Enter the id of product: "))
+    name_product = input("Enter the name of product: ")
+    price = float(input("Enter the price of product: "))
+    quantity = int(input("Enter the quantity of product: "))
+    os.system("clear") 
 
-            if price < 0 or quantity < 0:
-                  print("Ingresa solo numeros positivos por encima de 0")
-                  continue
-            
-            total_cost = price * quantity
-            inventory[name_product]={
-                 "precio": price,
-                 "cantidad": quantity,
-                 "costo_total": total_cost
-            }
-            return name_product
-        except ValueError:
-            print("Error: ID, Precio y Cantidad deben ser números.")
-        
+    inventory[id_product] = {"name": name_product, "price": price, "quantity": quantity}
 
-while True:
+
+    return inventory, price, quantity, id_product,name_product
+
+def total_value(id_product):
+    totalprice = inventory[id_product]["price"] * inventory[id_product]["quantity"]
+    return totalprice
+
+
+option_products_requier = int(input("enter the quantity of products required: "))
+quantity_product_requier = 0
+
+while quantity_product_requier < option_products_requier:
+    quantity_product_requier += 1  
     try:
-        num_products = int(input("enter the quantity of products required: "))
-        if num_products < 1:
-            print("Debe ser al menos 1 producto")
-            continue
-        for _ in range(num_products):
-            print(f"\n--- Registro de producto {_ + 1} ---")
-            added_name = create_product()
-            print(f"¡Producto '{added_name}' añadido con éxito!")
-        os.system("cls" if os.name == "nt" else "clear")    
-        print("--- inventario final ---")
-        pprint.pprint(inventory)  
-        break                
-        
+        inventory, price, quantity, id_product,name_product = create_product()
+
+        if price > 0 and quantity > 0:
+            print(f"Felicitaciones el producto id: {id_product} fue añadido exitosamente")
+            
+            
+        else:
+            print("Ingresa valores correctos solicitados")
     except ValueError:
-            print("Ingresa un numero entero positivo para la cantidad de productos")         
+        print("Ingresa el valor solicitado correctamente") 
+               
+else:
+    os.system("clear")
+    print("Agregaste productos correctamente")
+    for key, value in inventory.items():
+        print(f"{key}")
+       
+        # for key,value in value.items():
+        #     print(f"{value}")
+      
 
          
     
