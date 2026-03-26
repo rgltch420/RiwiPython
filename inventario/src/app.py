@@ -59,7 +59,15 @@ def statistics():
     print(f"Cantidad total de productos: {total_products}")
 
 def search_products():
-    print
+    if not inventory:
+        print("Empty storage")
+        return
+    search_term = input("Enter ID or name of product are you looking for: ")
+    found = False
+    for product in inventory:     
+        if str(product["id"]) == search_term or search_term in product: 
+            print("Product finded")
+            print(f"ID{'id'} | Name {product['name']} | Price{product['price']}")
 
 
 
