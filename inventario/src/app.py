@@ -40,6 +40,9 @@ def create_product():
         print("Enter the requested value correctly.")
 
 def show_inventory():
+  
+# Esta funcion es para mostrar inventario
+    
     if len(inventory) == 0:
         print("The inventory is empty.")
     else:
@@ -50,6 +53,9 @@ def show_inventory():
 
 
 def total_value():
+    
+# Funcion para calcular el valor total de los productos cantidad por precio
+     
     total = 0
 
     for product in inventory:
@@ -58,6 +64,10 @@ def total_value():
     return total
 
 def statistics():
+  
+# Funcion para mostrar el valor total de los productos y la cantidad de productos total de los productos   
+    
+    
     if len(inventory) == 0:
         print("No products registered")
         return
@@ -72,6 +82,9 @@ def statistics():
     print(f"Total quantity of products: {total_products}")
 
 def search_products():
+
+# Funcion encargada para buscar productos por ID o nombre
+    
     if not inventory:
         print("Empty storage")
         return
