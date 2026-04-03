@@ -1,7 +1,20 @@
 import os
 inventory = []
 
+def clear_screen():
+     
+#Esta funcion es la encargada de limpiar pantalla valida NT si es windows o prosix si es sistemas unix dependiendo si es windows hace un CLS de lo contario usa clear
+
+      if os.name == 'nt':
+        os.system('cls')
+      else:
+        os.system('clear')
+
+
 def create_product():
+    
+# Esta funcion es la encargada de crear ID, NOMBRES, PRECIOS, Y CANTIDADES de cada productos 
+
     try:
         id_product = int(input("Enter the id of product: "))
         name_product = input("Enter the name of product: ").lower()
@@ -18,17 +31,17 @@ def create_product():
             }
 
             inventory.append(product)
-            print(f"Producto ID {id_product} agregado correctamente")
+            print(f"Product added successfully; ID created successfully. {id_product}")
 
         else:
-            print("Ingresa valores correctos (mayores a 0)")
+            print("Enter valid values ​​(greater than 0).")
 
     except ValueError:
-        print("Ingresa el valor solicitado correctamente")
+        print("Enter the requested value correctly.")
 
 def show_inventory():
     if len(inventory) == 0:
-        print("El inventario está vacío")
+        print("The inventory is empty.")
     else:
         print("\n--- INVENTORY ---")
         for product in inventory:
@@ -46,7 +59,7 @@ def total_value():
 
 def statistics():
     if len(inventory) == 0:
-        print("No hay productos registrados")
+        print("No products registered")
         return
 
     total_products = 0
@@ -55,8 +68,8 @@ def statistics():
         total_products += product["quantity"]
 
     print("\n--- ESTADÍSTICAS ---")
-    print(f"Valor total del inventario: {total_value()}")
-    print(f"Cantidad total de productos: {total_products}")
+    print(f"Total inventory value: {total_value()}")
+    print(f"Total quantity of products: {total_products}")
 
 def search_products():
     if not inventory:
@@ -71,29 +84,42 @@ def search_products():
 
 
 
-# while True:
-#     print("\n===== ORDER MANAGEMENT SYSTEM =====")
-#     print("1. Agregar producto")
-#     print("2. Mostrar inventario")
-#     print("3. Calcular estadísticas")
-#     print("4. Salir")
+while True:
+    print("\n===== ORDER MANAGEMENT SYSTEM =====")
+    print("1. Add product")
+    print("2. Show Inventary")
+    print("3. Calculate estadistics")
+    print("4. Exit")
 
-#     option = input("Seleccione una opción: ")
+    option = input("Choice your option: ")
 
-#     os.system("clear")
+    clear_screen()
 
-#     if option == "1":
-#         create_product()
+    match option:
+        case "1":
+            create_product()
+        case "2":    
+            show_inventory()
+        case "3":
+            statistics()
+        case "4":
+            print("Exit ...")
+            break 
+        case _:
+            print("Invalid Option, try again")
 
-#     elif option == "2":
-#         show_inventory()
+    # if option == "1":
+    #     create_product()
 
-#     elif option == "3":
-#         statistics()
+    # elif option == "2":
+    #     show_inventory()
 
-#     elif option == "4":
-#         print("Saliendo...")
-#         break
+    # elif option == "3":
+    #     statistics()
 
-#     else:
-#         print("Opción inválida, intenta nuevamente")
+    # elif option == "4":
+    #     print("Saliendo...")
+    #     break
+
+    # else:
+        # print("Opción inválida, intenta nuevamente")
