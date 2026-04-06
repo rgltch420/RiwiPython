@@ -2,10 +2,6 @@ import os
 import platform
 import pandas as pd 
 
-
-
-
-
 inventory = []
 id_product_a = 0
 
@@ -166,13 +162,14 @@ def ascii_art():
         print(f"--- Ejecutando en {sistema} ---\n")
         
     banner = (r"""
-          
- ██████╗ ██████╗ ██████╗ ███████╗██████╗     ███╗   ███╗ █████╗ ███╗   ██╗ █████╗  ██████╗ ███████╗███╗   ███╗███████╗███╗   ██╗████████╗    ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗
-██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔══██╗██╔════╝ ██╔════╝████╗ ████║██╔════╝████╗  ██║╚══██╔══╝    ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║
-██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝    ██╔████╔██║███████║██╔██╗ ██║███████║██║  ███╗█████╗  ██╔████╔██║█████╗  ██╔██╗ ██║   ██║       ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║
-██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗    ██║╚██╔╝██║██╔══██║██║╚██╗██║██╔══██║██║   ██║██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║   ██║       ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║
-╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║    ██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝███████╗██║ ╚═╝ ██║███████╗██║ ╚████║   ██║       ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║
- ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝       ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝
+███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ███╗   ███╗ █████╗ ███╗   ██╗ █████╗  ██████╗ ███████╗███╗   ███╗███████╗███╗   ██╗████████╗
+██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ████╗ ████║██╔══██╗████╗  ██║██╔══██╗██╔════╝ ██╔════╝████╗ ████║██╔════╝████╗  ██║╚══██╔══╝
+███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║    ██╔████╔██║███████║██╔██╗ ██║███████║██║  ███╗█████╗  ██╔████╔██║█████╗  ██╔██╗ ██║   ██║   
+╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║    ██║╚██╔╝██║██╔══██║██║╚██╗██║██╔══██║██║   ██║██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║   ██║   
+███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║    ██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝███████╗██║ ╚═╝ ██║███████╗██║ ╚████║   ██║   
+╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   
+                                                                                                                                                     
+                                                                                                                                                     
                                                                                                                                                                                                   
             """)    
     print("\033[1;37m" + banner + "\033[0m")
@@ -188,20 +185,97 @@ def save_data():
 
 def read_data():
     global inventory
+    
+    invalid_rows = 0
+    loaded_products = []
+
     try:
         base_path = os.path.dirname(__file__)
         file_path = os.path.join(base_path, '..', 'products.csv')
-        data = pd.read_csv(file_path)
-        inventory = data.to_dict(orient='records')
-       
-        print("Data loaded successfully")
-    except FileNotFoundError:
-        print("File not found. Save data first.")
+
+        data = pd.read_csv(file_path, encoding='utf-8')
+
         
+        expected_columns = ["name", "price", "quantity"]
+        if list(data.columns) != expected_columns:
+            print("Error: El CSV debe tener encabezado: name,price,quantity")
+            return
+
+       
+        for _, row in data.iterrows():
+            try:
+                name = str(row["name"]).lower()
+                price = float(row["price"])
+                quantity = int(row["quantity"])
+
+                if price < 0 or quantity < 0:
+                    raise ValueError
+
+                product = {
+                    "id": f"CSV-{len(loaded_products)+1}",
+                    "name": name,
+                    "price": price,
+                    "quantity": quantity
+                }
+
+                loaded_products.append(product)
+
+            except (ValueError, TypeError):
+                invalid_rows += 1
+
+        if len(inventory) > 0:
+            opti = input(
+                "¿Sobrescribir inventario actual?\n"
+                "S = Reemplazar\n"
+                "N = Fusionar\n"
+            ).lower()
+        else:
+            opti = "s"
+
+      
+        if opti == "s":
+            inventory = loaded_products
+            action = "Inventario reemplazado"
+
+      
+        elif opti == "n":
+            action = "Inventario fusionado"
+
+            for new_product in loaded_products:
+                found = False
+
+                for product in inventory:
+                    if product["name"] == new_product["name"]:
+                       
+                        product["quantity"] += new_product["quantity"]
+
+                        if product["price"] != new_product["price"]:
+                            product["price"] = new_product["price"]
+
+                        found = True
+                        break
+
+                if not found:
+                    inventory.append(new_product)
+
+        else:
+            print("Opción inválida")
+            return
+
+        print("\n--- RESUMEN DE CARGA ---")
+        print(f"Productos cargados: {len(loaded_products)}")
+        print(f"Filas inválidas omitidas: {invalid_rows}")
+        print(f"Acción realizada: {action}")
+
+    except FileNotFoundError:
+        print("Error: Archivo no encontrado.")
+    except UnicodeDecodeError:
+        print("Error: Problema de codificación del archivo.")
+    except Exception as e:
+        print(f"Error inesperado: {e}")
     
     
 while True:
-    # print("\n===== ORDER MANAGEMENT SYSTEM =====")
     
     ascii_art()
         
