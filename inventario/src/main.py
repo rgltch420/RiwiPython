@@ -1,7 +1,4 @@
 from app import *
-
-
-
 while True:
     
     ascii_art()
