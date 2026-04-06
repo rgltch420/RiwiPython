@@ -1,32 +1,14 @@
-import os
 import platform
-import pandas as pd 
+from service import *
 
-inventory = []
-id_product_a = 0
-
-
-def clear_screen():
-     
+def clear_screen():  
 #Esta funcion es la encargada de limpiar pantalla valida NT si es windows o prosix si es sistemas unix dependiendo si es windows hace un CLS de lo contario usa clear
 
       if os.name == 'nt':
         os.system('cls')
       else:
         os.system('clear')
-
-def generate_id():
-    global id_product_a
-    id_product_a +=1
-    if id_product_a >= 10:
-       return f"ID PR0{id_product_a}"
-    elif id_product_a >= 100:
-       return f"ID PR {id_product_a}" 
-    else:
-        return f"ID PR000{id_product_a}"
-           
-
-
+          
 def create_product():
 # Esta funcion es la encargada de crear ID, NOMBRES, PRECIOS, Y CANTIDADES de cada productos 
     try:
@@ -64,19 +46,6 @@ def show_inventory():
         for product in inventory:
             print(f"ID: {product['id']}|Producto: {product['name']} | Precio: {product['price']} | Cantidad: {product['quantity']}")
 
-
-
-def total_value():
-    
-# Funcion para calcular el valor total de los productos cantidad por precio
-     
-    total = 0
-
-    for product in inventory:
-        total += product["price"] * product["quantity"]
-
-    return total
-
 def stadistics():
   
 # Funcion para mostrar el valor total de los productos y la cantidad de productos total de los productos   
@@ -93,22 +62,15 @@ def stadistics():
     print(f"Total quantity of products: {total_products}")
 
 def search_products():
-
-# Funcion encargada para buscar productos por ID o nombre
-    
+# Funcion encargada para buscar productos por ID o nombre  
     show_inventory()
-    
     search_term = input("Enter ID or name of product are you looking for: ")
     found = False
     for product in inventory:     
         if str(product["id"]) == search_term or search_term in product["name"]:
             print("Product finded")
-            print(f"{'id'} | Name {product['name']} | Price{product['price']}")
+            print(f"{'id'} | Name {product['name']} | Price{product['price']}")          
             
-            
-            
-            
-
 def update_products():  
     show_inventory()
     if len(inventory)==0:
@@ -136,8 +98,6 @@ def update_products():
     if not found:
         print("\n[!] Product not found in the inventory.")
 
-
-
 def delete_products():
     show_inventory()
     if len(inventory)==0:
@@ -148,8 +108,6 @@ def delete_products():
         if product["id"].lower() == id_to_change or product["name"].lower() == id_to_change:
             print(f"\nproduct: {product['name']}")
             
-            
-
 def ascii_art():
     
 # Se encarga de realizar el arte ascii y dectetar el sistema operativo para que en los distintos sistemas operativos salga bien entonces lo que hace es tomar con el condicional if sistema
@@ -175,169 +133,4 @@ def ascii_art():
                                                                                                                                                                                                   
             """)    
     print("\033[1;37m" + banner + "\033[0m")
-    
-    
-    
-    
-def save_data():
-    data_save = pd.DataFrame(inventory)
-    data_save.to_csv('products.csv', index=False, encoding='UTF-8')
-    print("Products successfully saved")
-    
-
-def read_data():
-    global inventory
-    
-    invalid_rows = 0
-    loaded_products = []
-
-    try:
-        base_path = os.path.dirname(__file__)
-        file_path = os.path.join(base_path, '..', 'products.csv')
-
-        data = pd.read_csv(file_path, encoding='utf-8')
-
-        
-        data.columns = [col.strip().lower() for col in data.columns]
-
-        required = {"name", "price", "quantity"}
-
-        if not required.issubset(set(data.columns)):
-            print("Error: El CSV debe tener al menos: name, price, quantity")
-            return
-
-        global id_product_a
-        max_id = 0
-
-        if "id" in data.columns:
-            for _, row in data.iterrows():
-                try:
-                    raw_id = str(row["id"])
-                    number = ''.join(filter(str.isdigit, raw_id))
-
-                    if number:
-                        number = int(number)
-                        if number > max_id:
-                            max_id = number
-                except:
-                    continue
-
-        if max_id > id_product_a:
-            id_product_a = max_id
-
-       
-        for _, row in data.iterrows():
-            try:
-                name = str(row["name"]).lower()
-                price = float(row["price"])
-                quantity = int(row["quantity"])
-
-                if price < 0 or quantity < 0:
-                    raise ValueError
-
-                if "id" in data.columns and pd.notna(row["id"]) and str(row["id"]).strip() != "":
-                    id_value = str(row["id"])
-                else:
-                    id_value = generate_id()
-
-                product = {
-                    "id": id_value,
-                    "name": name,
-                    "price": price,
-                    "quantity": quantity
-                }
-
-                loaded_products.append(product)
-
-            except (ValueError, TypeError):
-                invalid_rows += 1
-
-        if len(inventory) > 0:
-            opti = input(
-                "¿Sobrescribir inventario actual?\n"
-                "S = Reemplazar\n"
-                "N = Fusionar\n"
-            ).lower()
-        else:
-            opti = "s"
-
-      
-        if opti == "s":
-            inventory = loaded_products
-            action = "Inventario reemplazado"
-
-      
-        elif opti == "n":
-            action = "Inventario fusionado"
-
-            for new_product in loaded_products:
-                found = False
-
-                for product in inventory:
-                    if product["name"] == new_product["name"]:
-                       
-                        product["quantity"] += new_product["quantity"]
-
-                        if product["price"] != new_product["price"]:
-                            product["price"] = new_product["price"]
-
-                        found = True
-                        break
-
-                if not found:
-                    inventory.append(new_product)
-
-        else:
-            print("Opción inválida")
-            return
-
-        print("\n--- RESUMEN DE CARGA ---")
-        print(f"Productos cargados: {len(loaded_products)}")
-        print(f"Filas inválidas omitidas: {invalid_rows}")
-        print(f"Acción realizada: {action}")
-
-    except FileNotFoundError:
-        print("Error: Archivo no encontrado.")
-    except UnicodeDecodeError:
-        print("Error: Problema de codificación del archivo.")
-    except Exception as e:
-        print(f"Error inesperado: {e}")
-    
-    
-while True:
-    
-    ascii_art()
-        
-    print("1. Add product")
-    print("2. Show Inventary")
-    print("3. Calculate estadistics")
-    print("4. Update Inventory")
-    print("5. Delete Inventory")
-    print("6. Save Data")
-    print("7. Load Data")
-    print("8. Exit")
-
-    option = input("Choice your option: ")
-
-    clear_screen()
-
-    match option:
-        case "1":
-            create_product()
-        case "2":    
-            show_inventory()
-        case "3":
-            stadistics()
-        case "4":
-            update_products()
-        case "5":
-            delete_products()  
-        case "6":
-            save_data()
-        case "7":
-            read_data()             
-        case "8":
-            print("Exit ...")
-            break 
-        case _:
-            print("Invalid Option, try again")
+  
