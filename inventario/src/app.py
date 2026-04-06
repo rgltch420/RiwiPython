@@ -15,25 +15,27 @@ def clear_screen():
       else:
         os.system('clear')
 
+def generate_id():
+    global id_product_a
+    id_product_a +=1
+    if id_product_a >= 10:
+       return f"ID PR0{id_product_a}"
+    elif id_product_a >= 100:
+       return f"ID PR {id_product_a}" 
+    else:
+        return f"ID PR000{id_product_a}"
+           
+
 
 def create_product():
-    
 # Esta funcion es la encargada de crear ID, NOMBRES, PRECIOS, Y CANTIDADES de cada productos 
-    
     try:
-        global id_product_a
-        id_product_a +=1
-        id_product = f"ID PR000{id_product_a}"
-        if id_product_a >= 10:
-           id_product = f"ID PR0{id_product_a}"
-        elif id_product_a >= 100:
-           id_product = f"ID PR {id_product_a}"   
-         
+          
+        id_product = generate_id() 
         name_product = input("Enter the name of product: ").lower()
         price = float(input("Enter the price of product: "))
         quantity = int(input("Enter the quantity of product: "))
 
-        # Validación
         if price > 0 and quantity > 0:
             product = {
                 "id": id_product,
@@ -196,10 +198,32 @@ def read_data():
         data = pd.read_csv(file_path, encoding='utf-8')
 
         
-        expected_columns = ["name", "price", "quantity"]
-        if list(data.columns) != expected_columns:
-            print("Error: El CSV debe tener encabezado: name,price,quantity")
+        data.columns = [col.strip().lower() for col in data.columns]
+
+        required = {"name", "price", "quantity"}
+
+        if not required.issubset(set(data.columns)):
+            print("Error: El CSV debe tener al menos: name, price, quantity")
             return
+
+        global id_product_a
+        max_id = 0
+
+        if "id" in data.columns:
+            for _, row in data.iterrows():
+                try:
+                    raw_id = str(row["id"])
+                    number = ''.join(filter(str.isdigit, raw_id))
+
+                    if number:
+                        number = int(number)
+                        if number > max_id:
+                            max_id = number
+                except:
+                    continue
+
+        if max_id > id_product_a:
+            id_product_a = max_id
 
        
         for _, row in data.iterrows():
@@ -211,8 +235,13 @@ def read_data():
                 if price < 0 or quantity < 0:
                     raise ValueError
 
+                if "id" in data.columns and pd.notna(row["id"]) and str(row["id"]).strip() != "":
+                    id_value = str(row["id"])
+                else:
+                    id_value = generate_id()
+
                 product = {
-                    "id": f"CSV-{len(loaded_products)+1}",
+                    "id": id_value,
                     "name": name,
                     "price": price,
                     "quantity": quantity
