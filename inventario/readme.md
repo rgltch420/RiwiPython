@@ -15,39 +15,39 @@ All interactions are performed through a **terminal-based menu**.
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-- ✅ Automatic ID generation
-- ✅ Data validation (price and quantity)
-- ✅ Search products by name or ID
-- ✅ Update existing products
-- ✅ Delete products
-- ✅ CSV data persistence
-- ✅ Inventory statistics calculation
-- ✅ Clean console interface (Windows & Linux compatible)
+- Automatic ID generation
+- Data validation (price and quantity)
+- Search products by name or ID
+- Update existing products
+- Delete products
+- CSV data persistence
+- Inventory statistics calculation
+- Clean console interface (Windows & Linux compatible)
 
 ---
-## 🧱 Project Structure (Modular Design)
+## Project Structure (Modular Design)
 project/
-│
-├── main.py # Entry point (main menu)
-├── app.py # User interaction layer
-└── service.py # Business logic and data handling
+-│
+-├── main.py # Entry point (main menu)
+-├── app.py # User interaction layer
+-└── service.py # Business logic and data handling
 
 
-### 🔹 `main.py`
+### main.py
 Handles:
 - Program flow
 - Menu system
 - User options
 
-### 🔹 `app.py`
+### app.py
 Responsible for:
 - User input (`input`)
 - Output display (`print`)
 - Connecting UI with logic
 
-### 🔹 `service.py`
+### service.py
 Contains:
 - Inventory management
 - ID generation
@@ -72,8 +72,8 @@ Contains:
 
 1. Clone the repository:
 
-git clone <https://github.com/rgltch420/RiwiPython.git>
-cd <RiwiPython>
+- git clone <https://github.com/rgltch420/RiwiPython.git>
+- cd <RiwiPython>
 
 ### main.py
 Handles:
@@ -125,90 +125,90 @@ python main.py
 8. Exit
 
 ## How It Works
-The system stores products as a list of dictionaries:
-{
-    "id": "ID PR0001",
-    "name": "laptop",
-    "price": 1500.0,
-    "quantity": 3
-}
+- The system stores products as a list of dictionaries:
+- {
+-    "id": "ID PR0001",
+-    "name": "laptop",
+-    "price": 1500.0,
+-    "quantity": 3
+- }
 
 All products are stored in:
 
-inventory = []
+- inventory = []
 
 ## Data Persistence (CSV)
 
-Save Data
+### Save Data
 
-The inventory is saved to:
+- The inventory is saved to:
 
 products.csv
 
-Using:
+- Using:
 pandas.DataFrame.to_csv()
 
 
-Load Data
+### Load Data
 
 The system:
 
-Reads the CSV file
-Validates required columns (name, price, quantity)
-Skips invalid rows
-Allows:
-🔄 Replace current inventory
-🔗 Merge with existing inventory
+- Reads the CSV file
+- Validates required columns (name, price, quantity)
+- Skips invalid rows
+### Allows:
+- Replace current inventory
+- Merge with existing inventory
 
 
 ## Stadistics
 
-The system calculates:
+***The system calculates:*** 
 
-Total inventory value:
+- Total inventory value:
 
 price × quantity
 
--Total number of products
+- Total number of products
 
 
 ## Validations 
 
-The system prevents:
+***The system prevents:***
 
-Negative values
-Invalid numeric input
-Empty fields
-Incorrect CSV format
+- Negative values
+- Invalid numeric input
+- Empty fields
+- Incorrect CSV format
 
 ## Compatibility
 
 The program automatically detects the operating system:
 
-Windows → cls
-unix systems → clear
+- Windows → cls
+- unix systems → clear
 
 ## Interface
 
-Includes:
+**Includes:**
 
-Automatic screen clearing
-ASCII banner display
-Clear status messages
+- Automatic screen clearing
+- ASCII banner display
+- Clear status messages
 
 
 ## Example Usage
 1. Add product
-Enter the name of product: mouse
-Enter the price of product: 20
-Enter the quantity of product: 5
+- Enter the name of product: mouse
+- Enter the price of product: 20
+- Enter the quantity of product: 5
 
 Product added successfully; ID PR0001
 
 
 ## Future Improvements
-Graphical User Interface (GUI)
-Database integration (SQLite / PostgreSQL)
-REST API
-User authentication
-Advanced reports
+- Graphical User Interface (GUI)
+- Database integration (SQLite / PostgreSQL)
+- REST API
+- User authentication
+- Advanced reports
