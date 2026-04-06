@@ -51,7 +51,7 @@ def read_data():
         required = {"name", "price", "quantity"}
 
         if not required.issubset(set(data.columns)):
-            print("Error: El CSV debe tener al menos: name, price, quantity")
+            print("Error: The CSV file must contain at least: name, price, quantity")
             return
 
         global id_product_a
@@ -102,21 +102,20 @@ def read_data():
 
         if len(inventory) > 0:
             opti = input(
-                "¿Sobrescribir inventario actual?\n"
-                "S = Reemplazar\n"
-                "N = Fusionar\n"
-            ).lower()
+                "Overwrite current inventory?\n"
+                "S = Replace\n"
+                "N = Merge\n").lower()
         else:
             opti = "s"
 
       
         if opti == "s":
             inventory = loaded_products
-            action = "Inventario reemplazado"
+            action = "Replaced Inventory"
 
       
         elif opti == "n":
-            action = "Inventario fusionado"
+            action = "Merged inventory"
 
             for new_product in loaded_products:
                 found = False
@@ -136,17 +135,17 @@ def read_data():
                     inventory.append(new_product)
 
         else:
-            print("Opción inválida")
+            print("Invalid option")
             return
 
-        print("\n--- RESUMEN DE CARGA ---")
-        print(f"Productos cargados: {len(loaded_products)}")
-        print(f"Filas inválidas omitidas: {invalid_rows}")
-        print(f"Acción realizada: {action}")
+        print("\n--- LOAD SUMMARY ---")
+        print(f"Products loaded: {len(loaded_products)}")
+        print(f"Invalid rows omitted: {invalid_rows}")
+        print(f"Action taken: {action}")
 
     except FileNotFoundError:
-        print("Error: Archivo no encontrado.")
+        print("Error: File not found.")
     except UnicodeDecodeError:
-        print("Error: Problema de codificación del archivo.")
+        print("Error: File encoding problem.")
     except Exception as e:
-        print(f"Error inesperado: {e}")
+        print(f"Unexpected error: {e}")
