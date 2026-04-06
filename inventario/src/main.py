@@ -1,7 +1,7 @@
 from app import *
 while True:
     
-    ascii_art()
+    # ascii_art()
         
     print("1. Add product")
     print("2. Show Inventary")

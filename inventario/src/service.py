@@ -14,7 +14,6 @@ def generate_id():
     else:
         return f"ID PR000{id_product_a}"
 
-
 def total_value():
 # Funcion para calcular el valor total de los productos cantidad por precio
      
@@ -25,14 +24,11 @@ def total_value():
 
     return total
 
-
-
 def save_data():
     data_save = pd.DataFrame(inventory)
     data_save.to_csv('products.csv', index=False, encoding='UTF-8')
     print("Products successfully saved")
     
-
 def read_data():
     global inventory
     
@@ -110,8 +106,8 @@ def read_data():
 
       
         if opti == "s":
-            inventory = loaded_products
-            action = "Replaced Inventory"
+            inventory.clear()
+            inventory.extend(loaded_products)
 
       
         elif opti == "n":
@@ -149,3 +145,7 @@ def read_data():
         print("Error: File encoding problem.")
     except Exception as e:
         print(f"Unexpected error: {e}")
+
+
+
+
